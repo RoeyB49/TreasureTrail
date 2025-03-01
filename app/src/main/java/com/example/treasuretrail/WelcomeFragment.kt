@@ -14,8 +14,12 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         super.onViewCreated(view, savedInstanceState)
 
         val btnRegister = view.findViewById<Button>(R.id.btnRegister)
+        val btnLogin= view.findViewById<Button>(R.id.btnLogin)
         btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_welcomeFragment_to_registerFragment)
+        }
+        btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
         }
     }
 }
