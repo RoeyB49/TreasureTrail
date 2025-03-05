@@ -23,4 +23,24 @@
 
         </style>
 
+        <!-- Custom single-choice chip style -->
+        <style name="MySingleChoiceChip" parent="@style/Widget.MaterialComponents.Chip.Choice">
+                <!-- Spacing around the chip (optional) -->
+                <item name="android:layout_margin">2dp</item>
+
+                <!-- Corner radius for a rounded look -->
+                <item name="chipCornerRadius">16dp</item>
+
+                <!-- Chip stroke settings -->
+                <item name="chipStrokeWidth">1dp</item>
+                <item name="chipStrokeColor">@color/chip_stroke_color</item>
+
+                <!-- Background and text colors -->
+                <item name="chipBackgroundColor">@color/chip_background</item>
+                <item name="android:textColor">@color/chip_text_color</item>
+
+                <!-- Adjust text size if needed -->
+                <item name="android:textSize">14sp</item>
+        </style>
+
 </resources>
