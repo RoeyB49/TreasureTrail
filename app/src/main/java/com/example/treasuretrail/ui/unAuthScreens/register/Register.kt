@@ -20,11 +20,10 @@ import java.util.UUID
 import com.example.treasuretrail.models.User
 
 class Register : Fragment() {
-    // Using view binding for easier access to your views
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    // Launcher to pick an image from the gallery
+    // image piker
     private lateinit var getContentLauncher: ActivityResultLauncher<String>
     private var selectedImageUri: Uri? = null
 
@@ -34,7 +33,7 @@ class Register : Fragment() {
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        // Register the launcher for the image picker
+        // for image picker
         getContentLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 selectedImageUri = it
@@ -48,8 +47,11 @@ class Register : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        binding.editProfileIcon.setOnClickListener {
+            getContentLauncher.launch("image/*")
+        }
 
+        val registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         registerViewModel.registrationSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
                 Toast.makeText(requireContext(), "User registered successfully!", Toast.LENGTH_SHORT).show()

@@ -11,15 +11,15 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Welcome to\nTreasure Trail"
+        android:textAlignment="center"
+        android:textColor="@color/titleColor"
         android:textSize="40dp"
         android:textStyle="bold"
-        android:textColor="@color/titleColor"
-        android:textAlignment="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Illustration -->
     <ImageView
@@ -50,34 +50,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"/>
 
-    <!-- Log In Button -->
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="Log In"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/buttonColor"
+        android:text="Log In"
         android:textColor="@color/white"
-        app:cornerRadius="50dp"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
-        app:layout_constraintStart_toStartOf="parent"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"/>
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubtitle" />
 
-    <!-- Register Button -->
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/buttonColor"
+        android:text="Register"
         android:textColor="@color/white"
-        app:cornerRadius="50dp"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
-        app:layout_constraintStart_toStartOf="parent"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
