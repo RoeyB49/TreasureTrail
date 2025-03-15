@@ -3,19 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.post.ItemsFregment">
+    android:background="@color/backgroundColor"
+    tools:context=".ui.post.PostsFragment">
 
-<!--    <data>-->
-
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.example.myapplication.ui.authScreens.movies.ItemsViewModel" />-->
-<!--    </data>-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
 
 

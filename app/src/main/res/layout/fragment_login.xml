@@ -73,18 +73,37 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Submit Button (MaterialButton for corner radius support) -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSubmitLogin"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="30dp"
-        android:backgroundTint="@color/submitButtonColor"
-        android:text="Login!"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:cornerRadius="50dp"/>
 
     <!-- Progress Bar or Other Elements -->
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="62dp"
+        android:layout_marginHorizontal="30dp"
+        android:gravity="center">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignIn"
+            app:cornerRadius="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="62dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmitLogin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="62dp"
+            android:backgroundTint="@color/submitButtonColor"
+            android:text="Login!"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

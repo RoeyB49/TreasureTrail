@@ -1,6 +1,7 @@
 package com.example.treasuretrail.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.treasuretrail.R
+import com.example.treasuretrail.data.repository.UserRepository
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 
 class Profile : Fragment() {
 
@@ -31,7 +35,6 @@ class Profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize views
         ivProfileAvatar = view.findViewById(R.id.ivProfileAvatar)
         tvUserName = view.findViewById(R.id.tvUserName)
         tvUserEmail = view.findViewById(R.id.tvUserEmail)
@@ -40,19 +43,36 @@ class Profile : Fragment() {
         btnMyPosts = view.findViewById(R.id.btnMyPosts)
         btnLogout = view.findViewById(R.id.btnLogout)
 
-        // Example: Load user data from a shared source or arguments
-        // For now, we’ll hardcode some sample data:
-        val currentUserName = "John Doe"
-        val currentUserEmail = "john.doe@example.com"
-        val currentUserPhone = "058-290-2097"
 
-        // Update UI
-        tvUserName.text = currentUserName
-        tvUserEmail.text = "Email : $currentUserEmail"
-        tvUserPhone.text = "Phone Number: $currentUserPhone"
 
-        // If you have an avatar URL or local path, load it here (e.g., with Glide or Picasso)
-        // Glide.with(this).load(avatarUrl).into(ivProfileAvatar)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val userRepository = UserRepository()
+
+        userId?.let { id ->
+            userRepository.getUserData(id, { user ->
+                // Update UI
+                tvUserName.text = "Username: ${user.username}"
+                tvUserEmail.text = "Email: ${user.email}"
+                tvUserPhone.text = "Phone Number: ${user.phoneNumber}"
+
+                // Log all the fields
+                Log.d("ProfileFragment", "Fetched user - Username: ${user.username}, Email: ${user.email}, Phone: ${user.phoneNumber}, Image URI: ${user.imageUri}")
+
+                if (!user.imageUri.isNullOrEmpty()) {
+                    Picasso.get()
+                        .load(user.imageUri)
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_default)
+                        .into(ivProfileAvatar)
+                } else {
+                    ivProfileAvatar.setImageResource(R.drawable.avatar_default)
+                }
+            }, { exception ->
+                Log.e("ProfileFragment", "Error fetching user data", exception)
+            })
+
+        }
+
 
         // Button click listeners
         btnEditProfile.setOnClickListener {

@@ -1,7 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt") // Enables annotation processing for Room
+    id("kotlin-kapt")
+    alias(libs.plugins.google.services) // Enables annotation processing for Room
 }
 
 android {
@@ -61,6 +62,10 @@ dependencies {
 
     // Room Database: runtime and Kotlin extensions
     implementation(libs.androidx.room.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     // Room Compiler for annotation processing
     kapt(libs.androidx.room.compiler)
 
@@ -68,6 +73,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Picasso for image loading
+    implementation("com.squareup.picasso:picasso:2.8")
 
     apply(plugin = "com.google.gms.google-services")
 

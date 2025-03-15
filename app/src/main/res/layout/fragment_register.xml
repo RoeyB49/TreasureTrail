@@ -6,7 +6,7 @@
     android:background="@color/backgroundColor"
     tools:context=".ui.unAuthScreens.register.Register">
 
-<!--   At the moment i don't do anything with the data-->
+    <!--   At the moment i don't do anything with the data-->
 
     <!-- 🎉 Fun Registration Title -->
     <TextView
@@ -29,34 +29,34 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="15dp"
-        android:src="@drawable/avatar_default"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
+        android:src="@drawable/avatar_default"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/titleText" />
 
     <!-- Edit Profile Icon (Add Image Button) -->
     <ImageButton
         android:id="@+id/editProfileIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:background="@drawable/circle_button"
-        android:src="@android:drawable/ic_input_add"
-        android:contentDescription="Edit Profile Picture"
-        app:layout_constraintBottom_toBottomOf="@id/profileImage"
-        app:layout_constraintEnd_toEndOf="@id/profileImage"
+        android:layout_marginEnd="-5dp"
         android:layout_marginBottom="-5dp"
-        android:layout_marginEnd="-5dp"/>
+        android:background="@drawable/circle_button"
+        android:contentDescription="Edit Profile Picture"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="@id/profileImage"
+        app:layout_constraintEnd_toEndOf="@id/profileImage" />
 
     <!-- User Name Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutUserName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginHorizontal="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profileImage"
         app:startIconDrawable="@android:drawable/ic_menu_myplaces">
 
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="User Name"
-            android:paddingStart="14dp"/>
+            android:paddingStart="14dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Email Input -->
@@ -73,10 +73,10 @@
         android:id="@+id/layoutEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutUserName"
         app:startIconDrawable="@android:drawable/ic_dialog_email">
 
@@ -85,8 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email Address"
-            android:paddingStart="14dp"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:paddingStart="14dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -94,13 +94,13 @@
         android:id="@+id/layoutPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutEmail"
-        app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
-        app:endIconMode="password_toggle">
+        app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputPassword"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:hint="Choose a Password"
             android:inputType="textPassword"
-            android:paddingStart="14dp"/>
+            android:paddingStart="14dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Phone Number Input -->
@@ -116,10 +116,10 @@
         android:id="@+id/layoutPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutPassword"
         app:startIconDrawable="@android:drawable/ic_menu_call">
 
@@ -128,15 +128,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone Number"
-            android:paddingStart="14dp"
-            android:inputType="phone"/>
+            android:inputType="phone"
+            android:paddingStart="14dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Submit Button -->
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btnGoogleSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSubmit"
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
+
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_width="204dp"
+        android:layout_height="56dp"
         android:layout_marginHorizontal="30dp"
         android:backgroundTint="@color/submitButtonColor"
         android:text="Join Now!"
@@ -144,9 +157,11 @@
         android:textSize="18sp"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnGoogleSignIn"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
+        app:layout_constraintVertical_bias="0.504" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
@@ -154,11 +169,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

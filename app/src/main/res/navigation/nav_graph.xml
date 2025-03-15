@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/welcomeFragment">
 
     <!-- Welcome Fragment (First Screen) -->
@@ -16,6 +17,8 @@
             android:id="@+id/action_welcomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
 
+
+
     </fragment>
 
     <!-- Registration Fragment -->
@@ -29,4 +32,21 @@
         android:id="@+id/loginFragment"
         android:name="com.example.treasuretrail.ui.unAuthScreens.login.Login"
         android:label="Login" />
+
+
+
+<fragment
+    android:id="@+id/profileFragment"
+    android:name="com.example.treasuretrail.ui.profile.Profile"
+    android:label="Profile" />
+
+    <fragment
+        android:id="@+id/uploadPostFragment"
+        android:name="com.example.treasuretrail.ui.post.Upload_post"
+        android:label="Upload Post" />
+    <fragment
+        android:id="@+id/PostsFragment"
+        android:name="com.example.treasuretrail.ui.post.PostsFragment"
+        android:label="fragment_posts"
+        tools:layout="@layout/fragment_posts" />
 </navigation>

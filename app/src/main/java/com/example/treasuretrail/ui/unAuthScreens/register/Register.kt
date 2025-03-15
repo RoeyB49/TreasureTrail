@@ -17,8 +17,6 @@ import com.example.treasuretrail.R
 import com.example.treasuretrail.databinding.FragmentRegisterBinding
 import java.util.UUID
 
-import com.example.treasuretrail.models.User
-
 class Register : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!

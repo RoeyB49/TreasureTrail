@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#808080</color>
+   <color name="bottom_bar_color">#FFFFFF</color>
 
     <color name="backgroundColor">#F6EEC9</color>  <!-- Light Beige -->
     <color name="titleColor">#2A5D84</color>  <!-- Dark Blue-Grey -->
