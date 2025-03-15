@@ -1,20 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".ui.unAuthScreens.register.Register">
+    tools:context=".ui.profile.EditProfile">
 
-    <!--   At the moment i don't do anything with the data-->
-
-    <!-- 🎉 Fun Registration Title -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="🎉 Join Us! 🎉"
+        android:layout_marginTop="40dp"
+        android:text="✏️Edit Profile ✏️"
         android:textAlignment="center"
         android:textColor="@color/titleColor"
         android:textSize="40dp"
@@ -134,34 +132,35 @@
 
     <!-- Submit Button -->
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btnGoogleSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnSubmit"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
-
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="204dp"
-        android:layout_height="56dp"
+        android:layout_width="150dp"
+        android:layout_height="64dp"
         android:layout_marginHorizontal="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/submitButtonColor"
-        android:text="Join Now!"
+        android:text="Submit"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:cornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnGoogleSignIn"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCencel"
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
+
+    <Button
+        android:id="@+id/btnCencel"
+        android:layout_width="150dp"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/submitButtonColor"
+        android:text="Cencel"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:cornerRadius="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
-        app:layout_constraintVertical_bias="0.504" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"

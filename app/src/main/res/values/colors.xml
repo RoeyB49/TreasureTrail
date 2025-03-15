@@ -7,9 +7,15 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#808080</color>
+   <color name="bottom_bar_color">#FFFFFF</color>
 
     <color name="backgroundColor">#F6EEC9</color>  <!-- Light Beige -->
-    <color name="titleColor">#263238</color>  <!-- Dark Blue-Grey -->
+    <color name="titleColor">#2A5D84</color>  <!-- Dark Blue-Grey -->
     <color name="subtitleColor">#37474F</color>  <!-- Slightly lighter Blue-Grey -->
     <color name="buttonColor">#FFBF00</color>  <!-- Yellow -->
+    <color name="secondaryButtonColor">#F6EEC9</color>
+    <color name="submitButtonColor">#2A5D84</color>
+    <color name="chip_stroke_color">#437CA9</color>
+    <color name="chip_background">#2A5D84</color>
+    <color name="chip_text_color">#FFFFFF</color>
 </resources>

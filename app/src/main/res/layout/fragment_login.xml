@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.unAuthScreens.login.Login"
     android:id="@+id/layoutLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -72,35 +73,43 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Submit Button (MaterialButton for corner radius support) -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSubmitLogin"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="30dp"
-        android:backgroundTint="@color/buttonColor"
-        android:text="Login!"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:cornerRadius="50dp"/>
 
     <!-- Progress Bar or Other Elements -->
-    <!-- e.g.,
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="62dp"
+        android:layout_marginHorizontal="30dp"
+        android:gravity="center">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignIn"
+            app:cornerRadius="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="62dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmitLogin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="62dp"
+            android:backgroundTint="@color/submitButtonColor"
+            android:text="Login!"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_marginTop="20dp"/>
-    -->
 
-    <!-- Register Link (e.g., TextView) -->
-    <!-- e.g.,
-    <TextView
-        android:id="@+id/tvRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Not a member? Register"
-        android:textColor="@color/teal_700"
-        android:layout_marginTop="20dp"/>
-    -->
+
 </LinearLayout>

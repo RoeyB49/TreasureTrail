@@ -11,15 +11,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
 import com.example.treasuretrail.R
+
 import com.example.treasuretrail.databinding.FragmentRegisterBinding
+import java.util.UUID
 
 class Register : Fragment() {
-    // Using view binding for easier access to your views
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    // Launcher to pick an image from the gallery
+    // image piker
     private lateinit var getContentLauncher: ActivityResultLauncher<String>
     private var selectedImageUri: Uri? = null
 
@@ -29,7 +31,7 @@ class Register : Fragment() {
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        // Register the launcher for the image picker
+        // for image picker
         getContentLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 selectedImageUri = it
@@ -43,45 +45,38 @@ class Register : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Launch the image picker when the edit icon is clicked
         binding.editProfileIcon.setOnClickListener {
             getContentLauncher.launch("image/*")
         }
 
-        // Handle the Join Now button click
+        val registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        registerViewModel.registrationSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                Toast.makeText(requireContext(), "User registered successfully!", Toast.LENGTH_SHORT).show()
+                // Navigate to login screen or home
+            } else {
+                Toast.makeText(requireContext(), "Registration failed. Try again.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.btnSubmit.setOnClickListener {
-            // Retrieve data from the input fields
             val userName = binding.inputUserName.text.toString().trim()
             val email = binding.inputEmail.text.toString().trim()
             val password = binding.inputPassword.text.toString().trim()
             val phone = binding.inputPhone.text.toString().trim()
             val imageUriString = selectedImageUri?.toString() ?: ""
 
-            // Basic validation to check required fields
+
             if (userName.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // For demonstration, log the collected data
-            Log.d("RegisterFragment", "Name: $userName")
-            Log.d("RegisterFragment", "Email: $email")
-            Log.d("RegisterFragment", "Password: $password")
-            Log.d("RegisterFragment", "Phone: $phone")
-            Log.d("RegisterFragment", "Image URI: $imageUriString")
-
-            // Here you can store the data locally, for example using Room.
-            // You could create a User entity and insert it into your database.
-            // Example:
-            // val user = User(userName, email, password, phone, imageUriString)
-            // lifecycleScope.launch { AppDatabase.getInstance(requireContext()).userDao().insertUser(user) }
-
-            Toast.makeText(requireContext(), "Registration data collected", Toast.LENGTH_SHORT).show()
+            binding.progressBar.visibility = View.VISIBLE  // Show loading indicator
+            registerViewModel.registerUser(userName, email, password, phone, selectedImageUri)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
+
+
