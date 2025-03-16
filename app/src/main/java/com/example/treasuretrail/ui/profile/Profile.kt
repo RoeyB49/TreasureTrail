@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.R
 import com.example.treasuretrail.data.repository.UserRepository
 import com.google.android.material.button.MaterialButton
@@ -43,8 +44,14 @@ class Profile : Fragment() {
         btnMyPosts = view.findViewById(R.id.btnMyPosts)
         btnLogout = view.findViewById(R.id.btnLogout)
 
+        // Load user data
+        loadUserData()
 
+        // Set up button click listeners
+        setupButtonListeners()
+    }
 
+    private fun loadUserData() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val userRepository = UserRepository()
 
@@ -70,25 +77,26 @@ class Profile : Fragment() {
             }, { exception ->
                 Log.e("ProfileFragment", "Error fetching user data", exception)
             })
-
         }
+    }
 
-
-        // Button click listeners
+    private fun setupButtonListeners() {
         btnEditProfile.setOnClickListener {
-            // Navigate to Edit Profile screen
-            // For example:
-            // findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+            // Navigate to EditProfile fragment
+            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
         btnMyPosts.setOnClickListener {
-            // Navigate to My Posts screen
-            // findNavController().navigate(R.id.action_profileFragment_to_myPostsFragment)
+            // Navigate to PostsFragment
+            findNavController().navigate(R.id.action_profileFragment_to_postsFragment)
         }
 
         btnLogout.setOnClickListener {
-            // Perform logout logic
-            // e.g., clear user session, navigate to login screen
+            // Perform logout
+            FirebaseAuth.getInstance().signOut()
+
+            // Navigate back to welcome fragment
+            findNavController().navigate(R.id.action_profileFragment_to_welcomeFragment)
         }
     }
 }
