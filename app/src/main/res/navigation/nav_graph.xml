@@ -12,38 +12,64 @@
         <action
             android:id="@+id/action_welcomeFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-
-
-
     </fragment>
 
     <!-- Registration Fragment -->
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.treasuretrail.ui.unAuthScreens.register.Register"
-        android:label="Register" />
+        android:label="Register">
+        <action
+            android:id="@+id/action_registerFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 
     <!-- Login Fragment -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.treasuretrail.ui.unAuthScreens.login.Login"
-        android:label="Login" />
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 
+    <!-- Profile Fragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.treasuretrail.ui.profile.Profile"
+        android:label="Profile">
+        <!-- Add actions for profile navigation -->
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_postsFragment"
+            app:destination="@id/PostsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
+    <!-- Edit Profile Fragment -->
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.treasuretrail.ui.profile.EditProfile"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
 
-<fragment
-    android:id="@+id/profileFragment"
-    android:name="com.example.treasuretrail.ui.profile.Profile"
-    android:label="Profile" />
-
+    <!-- Upload Post Fragment -->
     <fragment
         android:id="@+id/uploadPostFragment"
         android:name="com.example.treasuretrail.ui.post.Upload_post"
         android:label="Upload Post" />
+
+    <!-- Posts Fragment -->
     <fragment
         android:id="@+id/PostsFragment"
         android:name="com.example.treasuretrail.ui.post.PostsFragment"

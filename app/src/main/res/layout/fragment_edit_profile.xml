@@ -145,17 +145,17 @@
         android:textSize="18sp"
         app:cornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnCencel"
+        app:layout_constraintStart_toEndOf="@+id/btnCancel"
         app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
 
     <Button
-        android:id="@+id/btnCencel"
+        android:id="@+id/btnCancel"
         android:layout_width="150dp"
         android:layout_height="64dp"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/submitButtonColor"
-        android:text="Cencel"
+        android:text="Cancel"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:cornerRadius="50dp"

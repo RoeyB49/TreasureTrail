@@ -2,12 +2,12 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    alias(libs.plugins.google.services) // Enables annotation processing for Room
+    id("com.google.gms.google-services") // Use direct plugin ID instead of alias
 }
 
 android {
     compileSdk = 35
-    namespace = "com.example.treasuretrail" // Namespace declared as required
+    namespace = "com.example.treasuretrail"
 
     defaultConfig {
         applicationId = "com.example.treasuretrail"
@@ -59,14 +59,18 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
-
-    // Room Database: runtime and Kotlin extensions
-    implementation(libs.androidx.room.ktx)
     implementation(libs.firebase.auth)
+
+    // Google Auth
+    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
+
+    // Credentials
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
-    implementation(libs.googleid)
-    // Room Compiler for annotation processing
+
+    // Room Database
+    implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
 
     // Testing libraries
@@ -76,7 +80,4 @@ dependencies {
 
     // Picasso for image loading
     implementation("com.squareup.picasso:picasso:2.8")
-
-    apply(plugin = "com.google.gms.google-services")
-
 }

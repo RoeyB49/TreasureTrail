@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.treasuretrail.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,7 +38,6 @@ class EditProfile : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
     }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
