@@ -74,5 +74,22 @@
         android:id="@+id/PostsFragment"
         android:name="com.example.treasuretrail.ui.post.PostsFragment"
         android:label="fragment_posts"
-        tools:layout="@layout/fragment_posts" />
+        tools:layout="@layout/fragment_posts">
+        <action
+            android:id="@+id/action_PostsFragment_to_FullPostFragment"
+            app:destination="@id/FullPostFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/PostPreviewFragment"
+        android:name="com.example.treasuretrail.ui.post.PostsFragment"
+        android:label="PostPreviewFragment"
+        tools:layout="@layout/fragment_post_preview" />
+
+   <fragment
+        android:id="@+id/FullPostFragment"
+       android:name="com.example.treasuretrail.ui.post.FullPostFragment"
+    android:label="FullPostFragment"
+    tools:layout="@layout/fragment_full_post"
+    />
 </navigation>
