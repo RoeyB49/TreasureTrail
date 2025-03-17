@@ -1,24 +1,32 @@
 package com.example.treasuretrail.ui.post
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.treasuretrail.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.treasuretrail.models.Post
+import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.ui.post.PostAdapter
+
 
 class PostsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: PostAdapter
     private val db = FirebaseFirestore.getInstance()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_posts, container, false)
 
         recyclerView = view.findViewById(R.id.itemRecyclerView)
@@ -35,7 +43,8 @@ class PostsFragment : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 val postList = mutableListOf<Post>()
-                val tasks = mutableListOf<com.google.android.gms.tasks.Task<com.google.firebase.firestore.DocumentSnapshot>>()
+                val tasks =
+                    mutableListOf<com.google.android.gms.tasks.Task<com.google.firebase.firestore.DocumentSnapshot>>()
 
 
                 for (doc in documents) {
@@ -47,6 +56,7 @@ class PostsFragment : Fragment() {
                         location = doc.getString("location") ?: "",
                         category = doc.getString("category") ?: "",
                         description = doc.getString("details") ?: "",
+                        title =  doc.getString("title") ?: "",
                         contactInformation = "",
                         timestamp = doc.getLong("timestamp") ?: 0
                     )
@@ -57,9 +67,12 @@ class PostsFragment : Fragment() {
                     userTask.addOnSuccessListener { userDoc ->
                         val username = userDoc.getString("username") ?: "Unknown"
                         val userImgUri = userDoc.getString("imageUri") ?: ""
+                        val contactInfo = userDoc.getString("phoneNumber") ?: ""
+                        Log.d("PostsFragment", "Retrieved phone number: $contactInfo")
                         val postWithUser = basePost.copy(
                             userName = username,
-                            userImageUri = userImgUri
+                            userImageUri = userImgUri,
+                            contactInformation = contactInfo
                         )
                         postList.add(postWithUser)
                     }
@@ -68,13 +81,21 @@ class PostsFragment : Fragment() {
 
                 com.google.android.gms.tasks.Tasks.whenAllComplete(tasks)
                     .addOnSuccessListener {
-                        postAdapter = PostAdapter(postList)
+                        postAdapter = PostAdapter(postList) { post ->
+                            val bundle = Bundle().apply {
+                                putSerializable("post", post)
+                            }
+                            view?.findNavController()
+                                ?.navigate(R.id.action_PostsFragment_to_FullPostFragment, bundle)
+                        }
                         recyclerView.adapter = postAdapter
                     }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Failed to fetch posts", Toast.LENGTH_SHORT).show()
+                    }
             }
-            .addOnFailureListener {
-                Toast.makeText(context, "Failed to fetch posts", Toast.LENGTH_SHORT).show()
-            }
+
     }
+
 
 }
