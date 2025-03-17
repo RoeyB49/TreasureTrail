@@ -1,60 +1,80 @@
 package com.example.treasuretrail.ui.post
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.treasuretrail.R
+import com.google.firebase.firestore.FirebaseFirestore
+import com.example.treasuretrail.models.Post
+import com.example.treasuretrail.ui.post.PostAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PostsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PostsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var postAdapter: PostAdapter
+    private val db = FirebaseFirestore.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_posts, container, false)
+
+        recyclerView = view.findViewById(R.id.itemRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        fetchPosts()
+
+        return view
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posts, container, false)
-    }
+    private fun fetchPosts() {
+        db.collection("posts")
+            .orderBy("timestamp")
+            .get()
+            .addOnSuccessListener { documents ->
+                val postList = mutableListOf<Post>()
+                val tasks = mutableListOf<com.google.android.gms.tasks.Task<com.google.firebase.firestore.DocumentSnapshot>>()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ItemsFregment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PostsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+                for (doc in documents) {
+                    val basePost = Post(
+                        id = doc.getString("postId") ?: doc.id,
+                        userName = "",
+                        userImageUri = "",
+                        lostItemImageUri = doc.getString("imageUrl") ?: "",
+                        location = doc.getString("location") ?: "",
+                        category = doc.getString("category") ?: "",
+                        description = doc.getString("details") ?: "",
+                        contactInformation = "",
+                        timestamp = doc.getLong("timestamp") ?: 0
+                    )
+
+                    val userId = doc.getString("userId") ?: ""
+
+                    val userTask = db.collection("users").document(userId).get()
+                    userTask.addOnSuccessListener { userDoc ->
+                        val username = userDoc.getString("username") ?: "Unknown"
+                        val userImgUri = userDoc.getString("imageUri") ?: ""
+                        val postWithUser = basePost.copy(
+                            userName = username,
+                            userImageUri = userImgUri
+                        )
+                        postList.add(postWithUser)
+                    }
+                    tasks.add(userTask)
                 }
+
+                com.google.android.gms.tasks.Tasks.whenAllComplete(tasks)
+                    .addOnSuccessListener {
+                        postAdapter = PostAdapter(postList)
+                        recyclerView.adapter = postAdapter
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Failed to fetch posts", Toast.LENGTH_SHORT).show()
             }
     }
+
 }
