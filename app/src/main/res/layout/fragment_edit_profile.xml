@@ -24,8 +24,8 @@
     <!-- Profile Image -->
     <ImageView
         android:id="@+id/profileImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="15dp"
         android:scaleType="fitCenter"
         android:src="@drawable/avatar_default"
@@ -138,29 +138,33 @@
         android:layout_height="64dp"
         android:layout_marginHorizontal="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:backgroundTint="@color/submitButtonColor"
         android:text="Submit"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btnCancel"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
+        app:layout_constraintVertical_bias="0.17" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="150dp"
         android:layout_height="64dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
         android:backgroundTint="@color/submitButtonColor"
         android:text="Cancel"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
+        app:layout_constraintVertical_bias="0.17" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"

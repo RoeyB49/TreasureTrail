@@ -133,35 +133,38 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Submit Button -->
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btnGoogleSignIn"
-        android:layout_width="wrap_content"
+    <!-- Put both buttons inside a horizontal LinearLayout -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnSubmit"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone" />
-
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="204dp"
-        android:layout_height="56dp"
-        android:layout_marginHorizontal="30dp"
-        android:backgroundTint="@color/submitButtonColor"
-        android:text="Join Now!"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:cornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnGoogleSignIn"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
-        app:layout_constraintVertical_bias="0.504" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPhone"
+        android:layout_marginHorizontal="30dp">
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/submitButtonColor"
+            android:text="Join Now!"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_marginEnd="8dp"
+        />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignIn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            />
+    </LinearLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"

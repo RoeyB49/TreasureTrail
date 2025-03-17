@@ -28,8 +28,8 @@
     <!-- Illustration / Welcome Image -->
     <ImageView
         android:id="@+id/ivDemo"
-        android:layout_width="280dp"
-        android:layout_height="230dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/wellcome_pic"
         android:scaleType="fitCenter"
         android:contentDescription="Illustration of Treasure Trail"
@@ -72,37 +72,33 @@
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Submit Button (MaterialButton for corner radius support) -->
-
-    <!-- Progress Bar or Other Elements -->
 
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="30dp"
         android:gravity="center">
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btnGoogleSignIn"
-            app:cornerRadius="100dp"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="62dp" />
+            android:layout_height="56dp"
+        android:layout_marginEnd="8dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitLogin"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="62dp"
-            android:backgroundTint="@color/submitButtonColor"
-            android:text="Login!"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            />
+            android:layout_height="56dp"
+        android:backgroundTint="@color/submitButtonColor"
+        android:text="Login!"
+        android:textColor="@color/white" />
     </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
