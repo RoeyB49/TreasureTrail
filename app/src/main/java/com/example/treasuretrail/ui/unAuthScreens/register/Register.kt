@@ -1,6 +1,7 @@
 package com.example.treasuretrail.ui.unAuthScreens.register
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.R
@@ -25,9 +28,32 @@ class Register : Fragment() {
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
 
+    // Image picker
+    private lateinit var getContentLauncher: ActivityResultLauncher<String>
+    private var selectedImageUri: Uri? = null
+
+    // Google Sign-In
+    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
+
     companion object {
-        private const val RC_SIGN_IN = 9001
         private const val TAG = "GoogleSignIn"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Initialize Google Sign-In launcher
+        googleSignInLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            Log.d(TAG, "Activity result received: ${result.resultCode}")
+            if (result.data == null) {
+                Log.e(TAG, "Sign-in intent returned null data")
+                return@registerForActivityResult
+            }
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            handleSignInResult(task)
+        }
     }
 
     override fun onCreateView(
@@ -36,6 +62,15 @@ class Register : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+
+        // Initialize image picker
+        getContentLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                selectedImageUri = it
+                binding.profileImage.setImageURI(it)
+            } ?: Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
+        }
+
         return binding.root
     }
 
@@ -44,8 +79,16 @@ class Register : Fragment() {
 
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
 
+        // Setup profile image selection
+        binding.editProfileIcon.setOnClickListener {
+            getContentLauncher.launch("image/*")
+        }
+
         // Initialize Google Sign-In
         setupGoogleSignIn()
+
+        // Setup regular email/password registration
+        setupEmailPasswordRegistration()
 
         // Observe registration success
         registerViewModel.registrationSuccess.observe(viewLifecycleOwner) { success ->
@@ -78,16 +121,13 @@ class Register : Fragment() {
             googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
             binding.btnGoogleSignIn.setOnClickListener {
-                // Clear any previous sign-in state
-                googleSignInClient.signOut().addOnCompleteListener {
-                    try {
-                        Log.d(TAG, "Starting Google Sign-In flow")
-                        val signInIntent = googleSignInClient.signInIntent
-                        startActivityForResult(signInIntent, RC_SIGN_IN)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error starting sign-in: ${e.message}")
-                        Toast.makeText(requireContext(), "Error starting sign-in", Toast.LENGTH_SHORT).show()
-                    }
+                try {
+                    Log.d(TAG, "Starting Google Sign-In flow")
+                    val signInIntent = googleSignInClient.signInIntent
+                    googleSignInLauncher.launch(signInIntent)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error starting sign-in: ${e.message}")
+                    Toast.makeText(requireContext(), "Error starting sign-in", Toast.LENGTH_SHORT).show()
                 }
             }
         } catch (e: Exception) {
@@ -96,34 +136,69 @@ class Register : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    private fun setupEmailPasswordRegistration() {
+        binding.btnSubmit.setOnClickListener {
+            val userName = binding.inputUserName.text.toString().trim()
+            val email = binding.inputEmail.text.toString().trim()
+            val password = binding.inputPassword.text.toString().trim()
+            val phone = binding.inputPhone.text.toString().trim()
 
-        if (requestCode == RC_SIGN_IN) {
-            Log.d(TAG, "Got sign-in result")
-            // Handle Google Sign-In result
-            handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(data))
+            if (userName.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            binding.progressBar.visibility = View.VISIBLE  // Show loading indicator
+
+            registerViewModel.registerUser(
+                userName,
+                email,
+                password,
+                phone,
+                selectedImageUri,
+                onSuccess = {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        try {
+                            findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Navigation error: ${e.message}")
+                        }
+                    }
+                },
+                onFailure = { errorMessage ->
+                    binding.progressBar.visibility = View.GONE
+                    if (isAdded) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
         }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            Log.d(TAG, "Sign-in successful, email: ${account?.email}")
+            Log.d(TAG, "Sign-in successful, email: ${account.email}")
 
             // Get ID token and authenticate with Firebase
-            val idToken = account?.idToken
+            val idToken = account.idToken
             if (idToken != null) {
                 Log.d(TAG, "Got ID token, registering with Firebase")
+                binding.progressBar.visibility = View.VISIBLE
+
                 registerViewModel.signInWithGoogle(
                     idToken,
                     onSuccess = {
+                        binding.progressBar.visibility = View.GONE
                         Log.d(TAG, "Firebase registration successful")
                         Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
                         // Navigate to profile fragment
                         findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
                     },
                     onFailure = { errorMessage ->
+                        binding.progressBar.visibility = View.GONE
                         Log.e(TAG, "Firebase registration failed: $errorMessage")
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                     }

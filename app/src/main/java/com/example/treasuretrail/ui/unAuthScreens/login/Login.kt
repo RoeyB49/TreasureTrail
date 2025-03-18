@@ -3,6 +3,7 @@ package com.example.treasuretrail.ui.unAuthScreens.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.R
 import com.example.treasuretrail.databinding.FragmentLoginBinding
-import com.example.treasuretrail.ui.unAuthScreens.login.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -59,8 +59,13 @@ class Login : Fragment() {
 
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+        // Setup Google Sign-In
         setupGoogleSignIn()
 
+        // Setup regular email/password login
+        setupEmailPasswordLogin()
+
+        // Observe login success
         loginViewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
             if (success && isAdded) {
                 try {
@@ -97,6 +102,55 @@ class Login : Fragment() {
         }
     }
 
+    private fun setupEmailPasswordLogin() {
+        binding.btnSubmitLogin.setOnClickListener {
+            val email = binding.inputEmail.text?.toString()?.trim() ?: ""
+            val password = binding.etPassword.text?.toString()?.trim() ?: ""
+
+            // Validate email
+            if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.layoutEmail.error = "Enter a valid email"
+                return@setOnClickListener
+            } else {
+                binding.layoutEmail.error = null
+            }
+
+            // Validate password
+            if (password.isEmpty() || password.length < 6) {
+                binding.layoutPassword.error = "Password must be at least 6 characters"
+                return@setOnClickListener
+            } else {
+                binding.layoutPassword.error = null
+            }
+
+            // Show progress bar
+            binding.progressBar.visibility = View.VISIBLE
+
+            // Call the ViewModel to handle login
+            loginViewModel.loginWithEmail(
+                email,
+                password,
+                onSuccess = {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        try {
+                            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Navigation error: ${e.message}")
+                        }
+                    }
+                },
+                onFailure = { errorMessage ->
+                    binding.progressBar.visibility = View.GONE
+                    if (isAdded) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
+    }
+
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
@@ -105,9 +159,12 @@ class Login : Fragment() {
 
             if (idToken != null) {
                 Log.d(TAG, "Got ID token, authenticating with Firebase")
+                binding.progressBar.visibility = View.VISIBLE
+
                 loginViewModel.signInWithGoogle(
                     idToken,
                     onSuccess = {
+                        binding.progressBar.visibility = View.GONE
                         Log.d(TAG, "Firebase authentication successful")
                         Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
                         if (isAdded) {
@@ -119,6 +176,7 @@ class Login : Fragment() {
                         }
                     },
                     onFailure = { errorMessage ->
+                        binding.progressBar.visibility = View.GONE
                         Log.e(TAG, "Firebase authentication failed: $errorMessage")
                         if (isAdded) {
                             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
