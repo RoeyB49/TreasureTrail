@@ -1,5 +1,6 @@
 package com.example.treasuretrail.ui.unAuthScreens.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,11 +32,15 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     _loginSuccess.value = true
+                    Log.d("FirebaseAuth", "Login successful for: $email")
                     onSuccess()
                 } else {
                     _loginSuccess.value = false
-                    onFailure(task.exception?.message ?: "Authentication failed")
+                    val errorMessage = task.exception?.message ?: "Authentication failed"
+                    Log.e("FirebaseAuth", "Login failed: $errorMessage")
+                    onFailure(errorMessage)
                 }
             }
     }
+
 }
