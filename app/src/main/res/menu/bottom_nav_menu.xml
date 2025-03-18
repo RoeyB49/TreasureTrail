@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/backgroundColor">
+    >
     <item
         android:id="@+id/PostsFragment"
         android:icon="@drawable/ic_newsfeed"
