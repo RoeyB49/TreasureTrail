@@ -51,14 +51,15 @@ class PostsFragment : Fragment() {
                     val basePost = Post(
                         id = doc.getString("postId") ?: doc.id,
                         userName = "",
-                        userImageUri = "",
-                        lostItemImageUri = doc.getString("imageUrl") ?: "",
+                        imageUrl = doc.getString("imageUrl") ?: "",
                         location = doc.getString("location") ?: "",
                         category = doc.getString("category") ?: "",
-                        description = doc.getString("details") ?: "",
+                        details = doc.getString("details") ?: "",
                         title =  doc.getString("title") ?: "",
                         contactInformation = "",
-                        timestamp = doc.getLong("timestamp") ?: 0
+                        timestamp = doc.getLong("timestamp") ?: 0L,
+                        userId = doc.getString("userId") ?: ""
+
                     )
 
                     val userId = doc.getString("userId") ?: ""
@@ -71,7 +72,7 @@ class PostsFragment : Fragment() {
                         Log.d("PostsFragment", "Retrieved phone number: $contactInfo")
                         val postWithUser = basePost.copy(
                             userName = username,
-                            userImageUri = userImgUri,
+                            imageUrl = userImgUri,
                             contactInformation = contactInfo
                         )
                         postList.add(postWithUser)

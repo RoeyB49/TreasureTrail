@@ -22,7 +22,6 @@ class PostAdapter(
         val location: TextView = view.findViewById(R.id.postLocation)
         val title: TextView = view.findViewById(R.id.postTitle)
         val category: TextView = view.findViewById(R.id.postCategory)
-//        val postImage: ImageView = view.findViewById(R.id.postImage)
         val moreInfoButton: Button = view.findViewById(R.id.moreInfoButton)
     }
 
@@ -36,13 +35,9 @@ class PostAdapter(
         val post = posts[position]
         holder.userName.text = "Username: ${post.userName}"
         holder.location.text = "Location:${post.location }"
-        holder.title.text = "details :${post.description}"
+        holder.title.text = "Title :${post.title}"
         holder.category.text = "category:${post.category}"
-//        Picasso.get()
-//            .load(post.lostItemImageUri)
-//            .placeholder(R.drawable.lost_item)
-//            .error(R.drawable.warning)
-//            .into(holder.postImage)
+
 
         holder.moreInfoButton.setOnClickListener {
             onMoreInfoClicked(post)

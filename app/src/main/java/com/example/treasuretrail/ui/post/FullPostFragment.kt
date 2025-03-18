@@ -30,7 +30,6 @@ class FullPostFragment : Fragment() {
         // Initialize views from fragment_full_post.xml
         val userNameText: TextView = view.findViewById(R.id.userName)
         val postLocationText: TextView = view.findViewById(R.id.postLocation)
-        val userProfileImage: ImageView = view.findViewById(R.id.userProfileImage)
         val postImage: ImageView = view.findViewById(R.id.postImage)
         val postTitleText: TextView = view.findViewById(R.id.postTitle)
         val postCategoryText: TextView = view.findViewById(R.id.postCategory)
@@ -46,16 +45,17 @@ class FullPostFragment : Fragment() {
         contactInfoText.text = "Contact: ${post.contactInformation}"
         //i need user phone number
         contactInfoText.text = "Contact: ${post.contactInformation}"
-        moreInfoText.text ="Description:${post.description}"
+        moreInfoText.text ="Description:${post.title}"
 
-        if (post.lostItemImageUri.isNotEmpty()) {
+        if (post.imageUrl.isNotEmpty()) {
             Picasso.get()
-                .load(post.lostItemImageUri)
+                .load(post.imageUrl)
                 .placeholder(R.drawable.lost_item)
                 .error(R.drawable.warning)
                 .into(postImage)
         } else {
             postImage.setImageResource(R.drawable.lost_item)
         }
+
     }
 }

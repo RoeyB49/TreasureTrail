@@ -20,14 +20,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/userProfileImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
-                android:clipToOutline="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/avatar_default" />
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,37 +63,47 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
-        <!-- Actions (Like & More Info) -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
             android:layout_marginTop="8dp">
 
-            <!-- Like Button (Badge will be added here) -->
-            <ImageButton
-                android:id="@+id/likeButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/like"
-                android:background="@null"
-                android:contentDescription="Like Button"
-                android:padding="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <!-- More Info Button -->
             <Button
                 android:id="@+id/moreInfoButton"
-                style="@style/NeutralButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MORE INFO"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/likeButton"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                style="@style/NeutralButton"
+                android:text="see more" />
+
+            <LinearLayout
+                android:id="@+id/editDeleteContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/editButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    style="@style/NeutralButton"
+                    android:text="✏️Edit" />
+
+                <Button
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="❌Delete"
+                    android:textColor="@color/black"
+                    style="@style/NeutralButton"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

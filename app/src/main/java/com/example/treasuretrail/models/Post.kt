@@ -7,12 +7,12 @@ import java.io.Serializable
 @Entity(tableName = "posts")
 data class Post(
     @PrimaryKey val id: String,
+    val userId: String,
     val userName: String,
-    val userImageUri: String,
-    val lostItemImageUri: String,
+    val imageUrl : String,
     val location: String,
     val category: String,
-    val description: String,
+    val details : String,
     val title: String,
     val contactInformation: String,
     val timestamp: Long
