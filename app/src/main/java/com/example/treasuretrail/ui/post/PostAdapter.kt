@@ -31,13 +31,6 @@ class PostAdapter(private val posts: List<Post>) : RecyclerView.Adapter<PostAdap
         holder.title.text = "details :${post.description}"
         holder.category.text = "category:${post.category}"
 
-
-//        // Load the image using Picasso instead of Glide
-//        Picasso.get()
-//            .load(post.lostItemImageUri)
-//            .placeholder(R.drawable.lost_item)
-//            .error(R.drawable.warning)
-//            .into(holder.postImage)
     }
 
     override fun getItemCount() = posts.size

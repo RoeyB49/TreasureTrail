@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.R
@@ -92,11 +93,28 @@ class Profile : Fragment() {
         }
 
         btnLogout.setOnClickListener {
-            // Perform logout
-            FirebaseAuth.getInstance().signOut()
+            showLogoutConfirmationDialog()
 
-            // Navigate back to welcome fragment
-            findNavController().navigate(R.id.action_profileFragment_to_welcomeFragment)
         }
     }
+
+    private fun showLogoutConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to log out?")
+            .setPositiveButton("Yes") { _, _ ->
+                logoutUser()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun logoutUser() {
+        FirebaseAuth.getInstance().signOut()
+
+        // Navigate back to welcome fragment
+        findNavController().navigate(R.id.action_profileFragment_to_welcomeFragment)
+    }
+
+
 }
