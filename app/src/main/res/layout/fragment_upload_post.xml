@@ -66,13 +66,13 @@
         android:id="@+id/tvCategoriesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Categories:(Only one)"
-        android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/layoutPostTitle"
         app:layout_constraintStart_toStartOf="@id/layoutPostTitle"
-        app:layout_constraintTop_toBottomOf="@id/layoutPostTitle" />
+        android:layout_marginTop="16dp" />
 
     <!-- ChipGroup with only chips -->
 
@@ -81,13 +81,13 @@
         android:id="@+id/chipGroupCategories"
         android:layout_width="281dp"
         android:layout_height="108dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         app:chipSpacingHorizontal="16dp"
         app:chipSpacingVertical="8dp"
         app:layout_constraintEnd_toEndOf="@id/layoutPostTitle"
 
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="@id/layoutPostTitle"
         app:layout_constraintTop_toBottomOf="@id/tvCategoriesLabel"
         app:selectionRequired="true"
@@ -172,8 +172,9 @@
         android:text="Submit"
         android:textColor="@android:color/white"
         app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutPostLocation" />
 

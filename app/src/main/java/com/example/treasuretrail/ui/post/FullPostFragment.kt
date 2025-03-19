@@ -49,7 +49,8 @@ class FullPostFragment : Fragment() {
 
         if (post.imageUrl.isNotEmpty()) {
             Picasso.get()
-                .load(post.imageUrl)
+                .load(post.imageUrl.trim())
+
                 .placeholder(R.drawable.lost_item)
                 .error(R.drawable.warning)
                 .into(postImage)
