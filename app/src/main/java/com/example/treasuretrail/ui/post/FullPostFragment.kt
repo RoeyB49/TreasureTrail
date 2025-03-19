@@ -1,6 +1,7 @@
 package com.example.treasuretrail.ui.post
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,8 @@ class FullPostFragment : Fragment() {
         val postCategoryText: TextView = view.findViewById(R.id.postCategory)
         val contactInfoText: TextView = view.findViewById(R.id.contactInfo)
         val moreInfoText: TextView = view.findViewById(R.id.moreInfo)
+        Log.d("FullPostFragment", "Loading image from URL: ${post.imageUrl}")
+
 
         // Bind the post data to the views
         userNameText.text = post.userName
@@ -43,16 +46,21 @@ class FullPostFragment : Fragment() {
         postTitleText.text = "Tiltle: ${post.title}"
         postCategoryText.text = "Category: ${post.category}"
         contactInfoText.text = "Contact: ${post.contactInformation}"
-        //i need user phone number
-        contactInfoText.text = "Contact: ${post.contactInformation}"
-        moreInfoText.text ="Description:${post.title}"
 
         if (post.imageUrl.isNotEmpty()) {
             Picasso.get()
-                .load(post.imageUrl)
+                .load(post.imageUrl.trim())
                 .placeholder(R.drawable.lost_item)
                 .error(R.drawable.warning)
-                .into(postImage)
+                .into(postImage, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        Log.d("FullPostFragment", "Image loaded successfully")
+                    }
+                    override fun onError(e: Exception?) {
+                        Log.e("FullPostFragment", "Picasso failed to load image", e)
+                    }
+                })
+
         } else {
             postImage.setImageResource(R.drawable.lost_item)
         }

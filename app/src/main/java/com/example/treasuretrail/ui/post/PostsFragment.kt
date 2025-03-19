@@ -72,7 +72,7 @@ class PostsFragment : Fragment() {
                         Log.d("PostsFragment", "Retrieved phone number: $contactInfo")
                         val postWithUser = basePost.copy(
                             userName = username,
-                            imageUrl = userImgUri,
+                           //imageUrl = userImgUri,
                             contactInformation = contactInfo
                         )
                         postList.add(postWithUser)

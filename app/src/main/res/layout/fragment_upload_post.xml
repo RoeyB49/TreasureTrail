@@ -21,17 +21,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
- <ImageView
-    android:id="@+id/lostPic"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_marginTop="12dp"
-    android:scaleType="fitCenter"
-    android:src="@drawable/lost_item"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.498"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tvUploadTitle" />
+    <ImageView
+        android:id="@+id/lostPic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/lost_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvUploadTitle" />
 
     <ImageButton
         android:id="@+id/btnAddImage"
@@ -81,13 +81,13 @@
         android:id="@+id/chipGroupCategories"
         android:layout_width="281dp"
         android:layout_height="108dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         app:chipSpacingHorizontal="16dp"
         app:chipSpacingVertical="8dp"
         app:layout_constraintEnd_toEndOf="@id/layoutPostTitle"
 
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="@id/layoutPostTitle"
         app:layout_constraintTop_toBottomOf="@id/tvCategoriesLabel"
         app:selectionRequired="true"
@@ -140,8 +140,7 @@
             android:layout_height="wrap_content"
             android:hint="Details"
             android:inputType="textMultiLine"
-
-            android:minLines="3" />
+            android:minLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -167,13 +166,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/submitButtonColor"
         android:text="Submit"
         android:textColor="@android:color/white"
         app:cornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutPostLocation" />
 
