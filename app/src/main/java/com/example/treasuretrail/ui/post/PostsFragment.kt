@@ -91,7 +91,13 @@ class PostsFragment : Fragment() {
                                 view?.findNavController()
                                     ?.navigate(R.id.action_PostsFragment_to_FullPostFragment, bundle)
                             },
-                            onDeleteClicked = { post -> deletePost(post) } // <-- Add this line
+                            onDeleteClicked = { post -> deletePost(post) },
+                            onEditClicked = { post ->
+                                val bundle = Bundle().apply {
+                                    putSerializable("post", post) // Pass the post to the EditFragment
+                                }
+                                view?.findNavController()?.navigate(R.id.action_UserPostsFragment_to_EditPostFragment, bundle)
+                            }
                         )
 
                         recyclerView.adapter = postAdapter

@@ -7,6 +7,7 @@
     android:background="@color/backgroundColor"
     tools:context=".ui.post.EditPostFragment">
 
+    <!-- Title Text -->
     <TextView
         android:id="@+id/tvUploadTitle"
         android:layout_width="wrap_content"
@@ -20,9 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!-- Title Text Field -->
-
+    <!-- Post Image -->
     <ImageView
         android:id="@+id/imgPost"
         android:layout_width="194dp"
@@ -35,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvUploadTitle"
         app:srcCompat="@drawable/lost_item" />
 
+    <!-- Edit Image Button -->
     <ImageButton
         android:id="@+id/btnEditImage"
         android:layout_width="40dp"
@@ -43,11 +43,13 @@
         android:layout_marginTop="100dp"
         android:background="@drawable/circle_button"
         android:src="@android:drawable/ic_menu_edit"
+        android:contentDescription="@string/edit_image"
         app:layout_constraintBottom_toTopOf="@+id/layoutTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgPost"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Title Text Field -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutTitle"
         android:layout_width="0dp"
@@ -63,7 +65,9 @@
             app:cornerRadius="70dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="Title"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Title input field" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Categories Label -->
@@ -129,7 +133,9 @@
             android:layout_height="wrap_content"
             android:hint="Details"
             android:inputType="textMultiLine"
-            android:minLines="3" />
+            android:minLines="3"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Details input field" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Location Text Field -->
@@ -147,11 +153,13 @@
             android:id="@+id/etLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="location"
-            android:inputType="text" />
+            android:hint="Location"
+            android:inputType="text"
+            android:importantForAccessibility="yes"
+            android:contentDescription="Location input field" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Save changes Button -->
+    <!-- Save Changes Button -->
     <Button
         android:id="@+id/btnSaveChanges"
         android:layout_width="0dp"
@@ -162,6 +170,8 @@
         android:text="Save changes"
         android:textColor="@android:color/white"
         app:cornerRadius="50dp"
+        android:importantForAccessibility="yes"
+        android:contentDescription="Save changes button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutLocation" />

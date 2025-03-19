@@ -13,7 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 class PostAdapter(
     private val posts: MutableList<Post>,
     private val onMoreInfoClicked: (Post) -> Unit,
-    private val onDeleteClicked: (Post) -> Unit
+    private val onDeleteClicked: (Post) -> Unit,
+    private val onEditClicked: (Post) -> Unit // Add onEditClicked here
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     private val auth = FirebaseAuth.getInstance() // Get current user ID
@@ -25,7 +26,8 @@ class PostAdapter(
         val category: TextView = view.findViewById(R.id.postCategory)
         val moreInfoButton: Button = view.findViewById(R.id.moreInfoButton)
         val deleteButton: Button = view.findViewById(R.id.deleteButton)
-        val editDeleteContainer: View = view.findViewById(R.id.editDeleteContainer) // Container for delete/edit
+        val editDeleteContainer: View = view.findViewById(R.id.editDeleteContainer)
+        val editButton: View = view.findViewById(R.id.editButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -56,6 +58,11 @@ class PostAdapter(
         } else {
             holder.editDeleteContainer.visibility = View.GONE
         }
+
+        // Use onEditClicked here
+        holder.editButton.setOnClickListener {
+            onEditClicked(post)
+        }
     }
 
     override fun getItemCount(): Int = posts.size
@@ -68,3 +75,4 @@ class PostAdapter(
         }
     }
 }
+
