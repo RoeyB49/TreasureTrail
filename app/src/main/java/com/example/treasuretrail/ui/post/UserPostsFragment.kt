@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.treasuretrail.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.treasuretrail.models.Post
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 
 class UserPostsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -53,7 +51,8 @@ class UserPostsFragment : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 val postList = mutableListOf<Post>()
-                val tasks = mutableListOf<Task<DocumentSnapshot>>()
+                val tasks =
+                    mutableListOf<com.google.android.gms.tasks.Task<com.google.firebase.firestore.DocumentSnapshot>>()
 
                 for (doc in documents) {
                     val basePost = Post(
@@ -110,11 +109,9 @@ class UserPostsFragment : Fragment() {
             Toast.makeText(context, "You haven't created any posts yet", Toast.LENGTH_SHORT).show()
         }
 
-        postAdapter = PostAdapter(
-            posts.toMutableList(),
+        postAdapter = PostAdapter(posts.toMutableList(),
             onMoreInfoClicked = { post ->
                 val bundle = Bundle().apply {
-                    // Use putSerializable for now as it's more compatible
                     putSerializable("post", post)
                 }
                 view?.findNavController()
@@ -122,21 +119,6 @@ class UserPostsFragment : Fragment() {
             },
             onDeleteClicked = { post ->
                 deletePost(post)
-            },
-            onEditClicked = { post ->
-                // Navigate to the EditPostFragment using postId instead of serializing the post
-                try {
-                    val bundle = Bundle().apply {
-                        // Pass only the post ID instead of the full Post object
-                        putSerializable("post", post)
-                    }
-                    Log.d("UserPostsFragment", "Navigating to edit post with ID: ${post.id}")
-                    view?.findNavController()
-                        ?.navigate(R.id.action_UserPostsFragment_to_EditPostFragment, bundle)
-                } catch (e: Exception) {
-                    Log.e("UserPostsFragment", "Navigation error: ${e.message}", e)
-                    Toast.makeText(context, "Error navigating to edit screen", Toast.LENGTH_SHORT).show()
-                }
             }
         )
         recyclerView.adapter = postAdapter
@@ -153,4 +135,5 @@ class UserPostsFragment : Fragment() {
                 Toast.makeText(context, "Error deleting post: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 }
