@@ -148,7 +148,7 @@ class Register : Fragment() {
                 return@setOnClickListener
             }
 
-            binding.progressBar.visibility = View.VISIBLE  // Show loading indicator
+            binding.progressBar.visibility = View.VISIBLE
 
             registerViewModel.registerUser(
                 userName,

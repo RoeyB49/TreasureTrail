@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:textSize="40dp"
+        android:textSize="35dp"
         android:textStyle="bold"
         android:textColor="@color/titleColor"
         android:textAlignment="center"
@@ -28,8 +28,8 @@
     <!-- Illustration / Welcome Image -->
     <ImageView
         android:id="@+id/ivDemo"
-        android:layout_width="280dp"
-        android:layout_height="230dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/wellcome_pic"
         android:scaleType="fitCenter"
         android:contentDescription="Illustration of Treasure Trail"
@@ -76,33 +76,22 @@
 
     <!-- Progress Bar or Other Elements -->
 
-    <LinearLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="match_parent"
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btnGoogleSignIn"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="62dp"
-        android:layout_marginHorizontal="30dp"
-        android:gravity="center">
+        android:visibility="visible" />
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btnGoogleSignIn"
-            app:cornerRadius="100dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="62dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmitLogin"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/submitButtonColor"
+        android:text="Login!"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSubmitLogin"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="62dp"
-            android:backgroundTint="@color/submitButtonColor"
-            android:text="Login!"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            />
-    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
