@@ -1,15 +1,38 @@
-package com.example.treasuretrail.data.repository
+package com.example.treasuretrail.data
 
+import AppDatabase
+import android.content.Context
 import android.net.Uri
-import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.treasuretrail.models.User
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class UserRepository {
-    private val db = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
+class UserRepository(context: Context) {
+    private val userDao = AppDatabase.getDatabase(context).userDao()
+    private val firestore = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
+    fun getUser(id: String): LiveData<User> {
+        return userDao.getUser(id)
+    }
+
+    suspend fun insertUser(user: User) {
+        withContext(Dispatchers.IO) {
+            userDao.insertUser(user)
+        }
+    }
+
+
+    suspend fun updateUser(user: User) {
+        withContext(Dispatchers.IO) {
+            userDao.updateUser(user)  // Update in local storage
+            firestore.collection("users").document(user.id).set(user) // Update in Firebase
+        }
+    }
 
     fun updateUserProfile(
         userId: String,
@@ -19,14 +42,14 @@ class UserRepository {
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val userRef = db.collection("users").document(userId)
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
 
         val updates = mutableMapOf<String, Any>()
         username?.let { updates["username"] = it }
         phoneNumber?.let { updates["phoneNumber"] = it }
 
         if (imageUri != null) {
-            val storageRef = storage.reference.child("profile_images/$userId.jpg")
+            val storageRef = FirebaseStorage.getInstance().reference.child("profile_images/$userId.jpg")
             storageRef.putFile(imageUri).continueWithTask { task ->
                 if (!task.isSuccessful) {
                     task.exception?.let { throw it }
@@ -53,38 +76,4 @@ class UserRepository {
         }
     }
 
-    fun getUserData(
-        uid: String,
-        onSuccess: (User) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        db.collection("users").document(uid).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val user = document.toUser() // We'll create an extension function below
-                    onSuccess(user)
-                } else {
-                    // If the document doesn't exist, treat it as an error or handle it gracefully
-                    onFailure(Exception("User document not found."))
-                }
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
-            }
-    }
-
-
-
-}
-
-// For convenience, an extension function to convert DocumentSnapshot -> User
-private fun DocumentSnapshot.toUser(): User {
-    Log.d("UserRepository", "Fetched document data: ${this.data}")
-    return User(
-        username = this.getString("username") ?: "",
-        email = this.getString("email") ?: "",
-        phoneNumber = this.getString("phoneNumber") ?: "",
-        imageUri = this.getString("imageUri") ?: "",
-        id = this.id
-    )
 }
