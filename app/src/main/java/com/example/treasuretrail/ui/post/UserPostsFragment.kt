@@ -109,13 +109,31 @@ class UserPostsFragment : Fragment() {
             Toast.makeText(context, "You haven't created any posts yet", Toast.LENGTH_SHORT).show()
         }
 
-        postAdapter = PostAdapter(posts) { post ->
-            val bundle = Bundle().apply {
-                putSerializable("post", post)
+        postAdapter = PostAdapter(posts.toMutableList(),
+            onMoreInfoClicked = { post ->
+                val bundle = Bundle().apply {
+                    putSerializable("post", post)
+                }
+                view?.findNavController()
+                    ?.navigate(R.id.action_UserPostsFragment_to_FullPostFragment, bundle)
+            },
+            onDeleteClicked = { post ->
+                deletePost(post)
             }
-            view?.findNavController()
-                ?.navigate(R.id.action_UserPostsFragment_to_FullPostFragment, bundle)
-        }
+        )
         recyclerView.adapter = postAdapter
     }
+
+    private fun deletePost(post: Post) {
+        db.collection("posts").document(post.id)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(context, "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                postAdapter.removePost(post) // Update UI
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Error deleting post: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 }

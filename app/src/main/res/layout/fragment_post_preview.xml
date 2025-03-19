@@ -1,6 +1,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -20,8 +21,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +38,7 @@
                     android:id="@+id/postLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="found in: Location"
+                    android:text="Found in: Location"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -63,6 +62,7 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
+        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,15 +76,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 style="@style/NeutralButton"
-                android:text="see more" />
+                android:text="See More" />
 
+            <!-- Edit & Delete Container (Visible only for post owner) -->
             <LinearLayout
                 android:id="@+id/editDeleteContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginStart="8dp"
-                android:visibility="gone">
+                android:visibility="gone"> <!-- Initially hidden -->
 
                 <Button
                     android:id="@+id/editButton"
@@ -92,16 +93,18 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     style="@style/NeutralButton"
-                    android:text="✏️Edit" />
+                    android:text="✏️ Edit"
+                    tools:ignore="HardcodedText" />
 
                 <Button
                     android:id="@+id/deleteButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="❌Delete"
+                    android:text="❌ Delete"
                     android:textColor="@color/black"
                     style="@style/NeutralButton"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="8dp"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
         </LinearLayout>
 

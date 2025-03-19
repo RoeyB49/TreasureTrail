@@ -82,13 +82,18 @@ class PostsFragment : Fragment() {
 
                 com.google.android.gms.tasks.Tasks.whenAllComplete(tasks)
                     .addOnSuccessListener {
-                        postAdapter = PostAdapter(postList) { post ->
-                            val bundle = Bundle().apply {
-                                putSerializable("post", post)
-                            }
-                            view?.findNavController()
-                                ?.navigate(R.id.action_PostsFragment_to_FullPostFragment, bundle)
-                        }
+                        postAdapter = PostAdapter(
+                            postList,
+                            onMoreInfoClicked = { post ->
+                                val bundle = Bundle().apply {
+                                    putSerializable("post", post)
+                                }
+                                view?.findNavController()
+                                    ?.navigate(R.id.action_PostsFragment_to_FullPostFragment, bundle)
+                            },
+                            onDeleteClicked = { post -> deletePost(post) } // <-- Add this line
+                        )
+
                         recyclerView.adapter = postAdapter
                     }
                     .addOnFailureListener {
@@ -96,6 +101,17 @@ class PostsFragment : Fragment() {
                     }
             }
 
+    }
+    private fun deletePost(post: Post) {
+        db.collection("posts").document(post.id)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(context, "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                postAdapter.removePost(post) // Remove post from the list and update UI
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Error deleting post: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
