@@ -50,6 +50,9 @@
             android:id="@+id/action_profileFragment_to_postsFragment"
             app:destination="@id/PostsFragment" />
         <action
+            android:id="@+id/action_profileFragment_to_mypostsFragment"
+            app:destination="@id/UserPostsFragment" />
+        <action
             android:id="@+id/action_profileFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment"
             app:popUpTo="@id/welcomeFragment"
@@ -80,16 +83,27 @@
             app:destination="@id/FullPostFragment"/>
     </fragment>
 
+    <!-- User Posts Fragment -->
+    <fragment
+        android:id="@+id/UserPostsFragment"
+        android:name="com.example.treasuretrail.ui.post.UserPostsFragment"
+        android:label="fragment_user_posts"
+        tools:layout="@layout/fragment_posts">
+        <action
+            android:id="@+id/action_UserPostsFragment_to_FullPostFragment"
+            app:destination="@id/FullPostFragment"/>
+    </fragment>
+
     <fragment
         android:id="@+id/PostPreviewFragment"
         android:name="com.example.treasuretrail.ui.post.PostsFragment"
         android:label="PostPreviewFragment"
         tools:layout="@layout/fragment_post_preview" />
 
-   <fragment
+    <fragment
         android:id="@+id/FullPostFragment"
-       android:name="com.example.treasuretrail.ui.post.FullPostFragment"
-    android:label="FullPostFragment"
-    tools:layout="@layout/fragment_full_post"
-    />
+        android:name="com.example.treasuretrail.ui.post.FullPostFragment"
+        android:label="FullPostFragment"
+        tools:layout="@layout/fragment_full_post"
+        />
 </navigation>
