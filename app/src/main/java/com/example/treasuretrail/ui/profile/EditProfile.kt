@@ -1,71 +1,109 @@
 package com.example.treasuretrail.ui.profile
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import com.example.treasuretrail.R
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.treasuretrail.R
+import com.example.treasuretrail.data.repository.UserRepository
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditProfile.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditProfile : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var profileImageView: ImageView
+    private lateinit var inputUserName: TextInputEditText
+    private lateinit var inputPhone: TextInputEditText
+    private lateinit var btnSubmit: Button
+    private lateinit var btnCancel: Button
+    private lateinit var progressBar: CircularProgressIndicator
+
+    private var imageUri: Uri? = null
+    private val userRepository = UserRepository()
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            imageUri = it.data?.data
+            profileImageView.setImageURI(imageUri)
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navController = findNavController()
+        profileImageView = view.findViewById(R.id.profileImage)
+        inputUserName = view.findViewById(R.id.inputUserName)
+        inputPhone = view.findViewById(R.id.inputPhone)
+        btnSubmit = view.findViewById(R.id.btnSubmit)
+        btnCancel = view.findViewById(R.id.btnCancel)
+        progressBar = view.findViewById(R.id.progress_bar)
 
-        view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
-            navController.navigate(R.id.profileFragment)
+        btnCancel.setOnClickListener {
+            findNavController().popBackStack()
         }
+
+        profileImageView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK).apply { type = "image/*" }
+            pickImageLauncher.launch(intent)
+        }
+
+        loadExistingUserData()
+
+        btnSubmit.setOnClickListener { updateUserData() }
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProfile.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditProfile().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
+    private fun loadExistingUserData() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        userRepository.getUserData(userId, { user ->
+            inputUserName.setText(user.username)
+            inputPhone.setText(user.phoneNumber)
+
+            if (!user.imageUri.isNullOrEmpty()) {
+                Picasso.get().load(user.imageUri)
+                    .placeholder(R.drawable.avatar_default)
+                    .into(profileImageView)
             }
+        }, {
+            Toast.makeText(context, "Error loading user data", Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun updateUserData() {
+        progressBar.visibility = View.VISIBLE
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val newUserName = inputUserName.text.toString().trim()
+        val newPhoneNumber = inputPhone.text.toString().trim()
+
+        userRepository.updateUserProfile(
+            userId,
+            username = newUserName.ifEmpty { null },
+            phoneNumber = newPhoneNumber.ifEmpty { null },
+            imageUri = imageUri, // Can be null if no new image selected
+            onSuccess = {
+                progressBar.visibility = View.GONE
+                Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            },
+            onFailure = {
+                progressBar.visibility = View.GONE
+                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 }

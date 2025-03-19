@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.R
 import com.example.treasuretrail.data.repository.UserRepository
+import com.example.treasuretrail.models.User
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
