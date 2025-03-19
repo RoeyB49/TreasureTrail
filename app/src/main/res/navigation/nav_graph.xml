@@ -92,6 +92,17 @@
         <action
             android:id="@+id/action_UserPostsFragment_to_FullPostFragment"
             app:destination="@id/FullPostFragment"/>
+        <action
+            android:id="@+id/action_UserPostsFragment_to_EditPostFragment"
+            app:destination="@id/EditPostFragment"/>
+    </fragment>
+
+    <!-- Edit Post Fragment (single instance) -->
+    <fragment
+        android:id="@+id/EditPostFragment"
+        android:name="com.example.treasuretrail.ui.post.EditPostFragment"
+        android:label="Edit Post"
+        tools:layout="@layout/fragment_edit_post">
     </fragment>
 
     <fragment
@@ -104,6 +115,5 @@
         android:id="@+id/FullPostFragment"
         android:name="com.example.treasuretrail.ui.post.FullPostFragment"
         android:label="FullPostFragment"
-        tools:layout="@layout/fragment_full_post"
-        />
+        tools:layout="@layout/fragment_full_post" />
 </navigation>
