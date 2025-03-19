@@ -128,7 +128,7 @@ class UserPostsFragment : Fragment() {
                 try {
                     val bundle = Bundle().apply {
                         // Pass only the post ID instead of the full Post object
-                        putString("postId", post.id)
+                        putSerializable("post", post)
                     }
                     Log.d("UserPostsFragment", "Navigating to edit post with ID: ${post.id}")
                     view?.findNavController()

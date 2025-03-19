@@ -12,15 +12,13 @@ import com.example.treasuretrail.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.treasuretrail.models.Post
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.chip.ChipGroup
+
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.chip.Chip
 
 class EditPostFragment : Fragment() {
     private val TAG = "EditPostFragment"
     private lateinit var titleEditText: TextInputEditText
     private lateinit var detailsEditText: TextInputEditText
-    private lateinit var categoryChipGroup: ChipGroup
     private lateinit var locationEditText: TextInputEditText
     private lateinit var updateButton: Button
     private val db = FirebaseFirestore.getInstance()
@@ -38,7 +36,7 @@ class EditPostFragment : Fragment() {
         // Initialize views
         titleEditText = view.findViewById(R.id.etTitle)
         detailsEditText = view.findViewById(R.id.etDetails)
-        categoryChipGroup = view.findViewById(R.id.chipGroupCategories)
+
         locationEditText = view.findViewById(R.id.etLocation)
         updateButton = view.findViewById(R.id.btnSaveChanges)
 
@@ -87,27 +85,6 @@ class EditPostFragment : Fragment() {
         detailsEditText.setText(post.details)
         locationEditText.setText(post.location)
 
-        // Set the category chip
-        try {
-            when (post.category) {
-                "Personal Items 💎" -> categoryChipGroup.check(R.id.chipPersonalItems)
-                "Bags 👜" -> categoryChipGroup.check(R.id.chipBags)
-                "Pets 🐕" -> categoryChipGroup.check(R.id.chipPets)
-                "Electronic 💻" -> categoryChipGroup.check(R.id.chipElectronic)
-                else -> {
-                    // If category doesn't match any chip, select personal items as default
-                    categoryChipGroup.check(R.id.chipPersonalItems)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error setting category chip: ${e.message}", e)
-            // Default to personal items if there's an error with chip selection
-            try {
-                categoryChipGroup.check(R.id.chipPersonalItems)
-            } catch (innerE: Exception) {
-                Log.e(TAG, "Error setting default chip: ${innerE.message}", innerE)
-            }
-        }
     }
 
     private fun savePostChanges() {
@@ -120,7 +97,7 @@ class EditPostFragment : Fragment() {
         val title = titleEditText.text.toString().trim()
         val details = detailsEditText.text.toString().trim()
         val location = locationEditText.text.toString().trim()
-        val category = getSelectedCategory()
+
 
         // Validate input
         if (title.isEmpty() || details.isEmpty() || location.isEmpty()) {
@@ -132,7 +109,6 @@ class EditPostFragment : Fragment() {
         val updatedPostMap = hashMapOf(
             "title" to title,
             "details" to details,
-            "category" to category,
             "location" to location
         )
 
@@ -155,12 +131,5 @@ class EditPostFragment : Fragment() {
             }
     }
 
-    private fun getSelectedCategory(): String {
-        val selectedChipId = categoryChipGroup.checkedChipId
-        if (selectedChipId == View.NO_ID) {
-            return "Personal Items 💎"
-        }
-        val selectedChip = view?.findViewById<Chip>(selectedChipId)
-        return selectedChip?.text?.toString() ?: "Personal Items 💎"
-    }
+
 }
