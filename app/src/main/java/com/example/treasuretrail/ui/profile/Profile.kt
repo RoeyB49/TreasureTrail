@@ -89,7 +89,7 @@ class Profile : Fragment() {
 
         btnMyPosts.setOnClickListener {
             // Navigate to PostsFragment
-            findNavController().navigate(R.id.action_profileFragment_to_postsFragment)
+            findNavController().navigate(R.id.action_profileFragment_to_mypostsFragment)
         }
 
         btnLogout.setOnClickListener {
