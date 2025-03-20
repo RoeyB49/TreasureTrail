@@ -70,7 +70,11 @@
     <fragment
         android:id="@+id/uploadPostFragment"
         android:name="com.example.treasuretrail.ui.post.Upload_post"
-        android:label="Upload Post" />
+        android:label="Upload Post" >
+        <action
+            android:id="@+id/action_uploadPostFragment_to_MyPostsFragment"
+            app:destination="@id/UserPostsFragment" />
+    </fragment>
 
     <!-- Posts Fragment -->
     <fragment
