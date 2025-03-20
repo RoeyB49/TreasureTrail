@@ -70,11 +70,11 @@ class EditProfile : Fragment() {
     private fun loadExistingUserData() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         userRepository.getUserData(userId, { user ->
-            inputUserName.setText(user.username)
-            inputPhone.setText(user.phoneNumber)
+            inputUserName.setText(user.displayName)
+            inputPhone.setText(user.phone)
 
-            if (!user.imageUri.isNullOrEmpty()) {
-                Picasso.get().load(user.imageUri)
+            if (!user.photoUrl.isNullOrEmpty()) {
+                Picasso.get().load(user.photoUrl)
                     .placeholder(R.drawable.avatar_default)
                     .into(profileImageView)
             }

@@ -81,10 +81,10 @@ class UserRepository {
 private fun DocumentSnapshot.toUser(): User {
     Log.d("UserRepository", "Fetched document data: ${this.data}")
     return User(
-        username = this.getString("username") ?: "",
+        displayName = this.getString("displayName") ?: "",
         email = this.getString("email") ?: "",
-        phoneNumber = this.getString("phoneNumber") ?: "",
-        imageUri = this.getString("imageUri") ?: "",
+        phone = this.getString("phone") ?: "",
+        photoUrl = this.getString("photoUrl") ?: "",
         id = this.id
     )
 }

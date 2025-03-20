@@ -57,16 +57,16 @@ class Profile : Fragment() {
         userId?.let { id ->
             userRepository.getUserData(id, { user ->
                 // Update UI
-                tvUserName.text = "Username: ${user.username}"
+                tvUserName.text = "Username: ${user.displayName}"
                 tvUserEmail.text = "Email: ${user.email}"
-                tvUserPhone.text = "Phone Number: ${user.phoneNumber}"
+                tvUserPhone.text = "Phone Number: ${user.phone}"
 
                 // Log all the fields
-                Log.d("ProfileFragment", "Fetched user - Username: ${user.username}, Email: ${user.email}, Phone: ${user.phoneNumber}, Image URI: ${user.imageUri}")
+                Log.d("ProfileFragment", "Fetched user - Username: ${user.displayName}, Email: ${user.email}, Phone: ${user.phone}, Image URI: ${user.photoUrl}")
 
-                if (!user.imageUri.isNullOrEmpty()) {
+                if (!user.photoUrl.isNullOrEmpty()) {
                     Picasso.get()
-                        .load(user.imageUri)
+                        .load(user.photoUrl)
                         .placeholder(R.drawable.avatar_default)
                         .error(R.drawable.avatar_default)
                         .into(ivProfileAvatar)
