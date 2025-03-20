@@ -17,7 +17,6 @@ class FullPostFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Assume the Post is passed as a Serializable
         post = requireArguments().getSerializable("post") as Post
     }
 
@@ -43,7 +42,6 @@ class FullPostFragment : Fragment() {
         postTitleText.text = "Tiltle: ${post.title}"
         postCategoryText.text = "Category: ${post.category}"
         contactInfoText.text = "Contact: ${post.contactInformation}"
-        //i need user phone number
         contactInfoText.text = "Contact: ${post.contactInformation}"
         moreInfoText.text ="Description:${post.title}"
 

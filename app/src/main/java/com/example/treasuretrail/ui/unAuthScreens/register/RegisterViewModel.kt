@@ -24,7 +24,6 @@ class RegisterViewModel : ViewModel() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Get current user
                     val user = auth.currentUser
 
                     if (user != null) {
@@ -36,8 +35,6 @@ class RegisterViewModel : ViewModel() {
                             "photoUrl" to (user.photoUrl?.toString() ?: ""),
                             "registrationType" to "google"
                         )
-
-                        // Save to Firestore
                         firestore.collection("users").document(user.uid)
                             .set(userMap)
                             .addOnSuccessListener {
@@ -75,7 +72,6 @@ class RegisterViewModel : ViewModel() {
                     val user = auth.currentUser
 
                     if (user != null) {
-                        // Handle profile image upload if available
                         if (profileImageUri != null) {
                             uploadProfileImage(user.uid, profileImageUri) { imageUrl ->
                                 // Update profile with display name and photo
@@ -139,7 +135,7 @@ class RegisterViewModel : ViewModel() {
         user?.updateProfile(profileUpdates)
             ?.addOnCompleteListener { profileTask ->
                 if (profileTask.isSuccessful) {
-                    // Now save additional user data to Firestore
+                    // Save additional user data to Firestore
                     val userMap = hashMapOf(
                         "uid" to userId,
                         "displayName" to userName,

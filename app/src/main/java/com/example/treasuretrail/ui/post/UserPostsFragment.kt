@@ -39,7 +39,6 @@ class UserPostsFragment : Fragment() {
     }
 
     private fun fetchUserPosts() {
-        // Get current user ID
         val currentUserId = auth.currentUser?.uid
 
         if (currentUserId == null) {
@@ -94,7 +93,6 @@ class UserPostsFragment : Fragment() {
                     tasks.add(userTask)
                 }
 
-                // Handle empty result case
                 if (documents.isEmpty) {
                     Toast.makeText(context, "You haven't created any posts yet", Toast.LENGTH_SHORT).show()
                 }
@@ -114,7 +112,6 @@ class UserPostsFragment : Fragment() {
             posts.toMutableList(),
             onMoreInfoClicked = { post ->
                 val bundle = Bundle().apply {
-                    // Use putSerializable for now as it's more compatible
                     putSerializable("post", post)
                 }
                 view?.findNavController()
@@ -124,7 +121,6 @@ class UserPostsFragment : Fragment() {
                 deletePost(post)
             },
             onEditClicked = { post ->
-                // Navigate to the EditPostFragment using postId instead of serializing the post
                 try {
                     val bundle = Bundle().apply {
                         // Pass only the post ID instead of the full Post object

@@ -1,7 +1,6 @@
 package com.example.treasuretrail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -21,11 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         // Check if the user is logged in
         if (auth.currentUser != null) {
-            // Navigate to the posts fragment (replace R.id.postsFragment with your actual posts fragment id)
             navController?.navigate(R.id.PostsFragment)
         }
 
-        // Setup BottomNavigationView
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         if (navController != null) {
             bottomNavigationView.setupWithNavController(navController)
@@ -42,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            // If using the Navigation component, navigate up:
             onBackPressedDispatcher.onBackPressed()
             return true
         }

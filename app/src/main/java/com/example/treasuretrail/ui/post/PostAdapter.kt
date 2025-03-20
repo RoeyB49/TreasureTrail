@@ -14,7 +14,7 @@ class PostAdapter(
     private val posts: MutableList<Post>,
     private val onMoreInfoClicked: (Post) -> Unit,
     private val onDeleteClicked: (Post) -> Unit,
-    private val onEditClicked: (Post) -> Unit // Add onEditClicked here
+    private val onEditClicked: (Post) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     private val auth = FirebaseAuth.getInstance() // Get current user ID
@@ -58,8 +58,6 @@ class PostAdapter(
         } else {
             holder.editDeleteContainer.visibility = View.GONE
         }
-
-        // Use onEditClicked here
         holder.editButton.setOnClickListener {
             onEditClicked(post)
         }
