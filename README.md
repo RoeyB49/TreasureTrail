@@ -1,10 +1,9 @@
+![rsz_1wellcome_pic](https://github.com/user-attachments/assets/e6da56c1-920c-4156-8751-7da109b2d9a3)
 
-![wellcome_pic](https://github.com/user-attachments/assets/a02e8358-7e13-47d8-a3e2-b4269110504b)
-
-# Lost & Found App
+# TreasureTrail(Lost & Found App)
 
 ## Overview
-Lost & Found is an Android application that helps users post and discover lost and found items. Users can upload details, including images, descriptions, and locations, while others can search by category and connect with users to coordinate item returns. The app is powered by Firebase for authentication and data storage.
+TreasureTrail is an Android application that helps users post and discover lost and found items. Users can upload details, including images, descriptions, and locations, while others can search by category and connect with users to coordinate item returns. The app is powered by Firebase for authentication and data storage.
 
 ## Features
 - **User Authentication**
