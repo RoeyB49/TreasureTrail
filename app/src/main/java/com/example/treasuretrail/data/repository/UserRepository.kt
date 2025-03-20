@@ -13,28 +13,28 @@ class UserRepository {
 
     fun updateUserProfile(
         userId: String,
-        username: String? = null,
-        phoneNumber: String? = null,
-        imageUri: Uri? = null,
+        displayName: String? = null,
+        phone: String? = null,
+        photoUrl: Uri? = null,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val userRef = db.collection("users").document(userId)
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
 
         val updates = mutableMapOf<String, Any>()
-        username?.let { updates["username"] = it }
-        phoneNumber?.let { updates["phoneNumber"] = it }
+        displayName?.let { updates["displayName"] = it }
+        phone?.let { updates["phone"] = it }
 
-        if (imageUri != null) {
-            val storageRef = storage.reference.child("profile_images/$userId.jpg")
-            storageRef.putFile(imageUri).continueWithTask { task ->
+        if (photoUrl != null) {
+            val storageRef = FirebaseStorage.getInstance().reference.child("profile_images/$userId.jpg")
+            storageRef.putFile(photoUrl).continueWithTask { task ->
                 if (!task.isSuccessful) {
                     task.exception?.let { throw it }
                 }
                 storageRef.downloadUrl
             }.addOnCompleteListener { downloadTask ->
                 if (downloadTask.isSuccessful) {
-                    updates["imageUri"] = downloadTask.result.toString()
+                    updates["photoUrl"] = downloadTask.result.toString()
                     userRef.update(updates)
                         .addOnSuccessListener { onSuccess() }
                         .addOnFailureListener { e -> onFailure(e) }
@@ -52,6 +52,7 @@ class UserRepository {
             }
         }
     }
+
 
     fun getUserData(
         uid: String,

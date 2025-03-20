@@ -92,9 +92,9 @@ class EditProfile : Fragment() {
 
         userRepository.updateUserProfile(
             userId,
-            username = newUserName.ifEmpty { null },
-            phoneNumber = newPhoneNumber.ifEmpty { null },
-            imageUri = imageUri,
+            displayName = newUserName.ifEmpty { null },
+            phone = newPhoneNumber.ifEmpty { null },
+            photoUrl = imageUri,
             onSuccess = {
                 progressBar.visibility = View.GONE
                 Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show()
