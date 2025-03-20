@@ -46,5 +46,8 @@
         <style name="NeutralButton" parent="Widget.MaterialComponents.Button">
                 <item name="android:backgroundTint"><![CDATA[@android:color/transparent]]></item>
         </style>
+        <style name="Theme.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+                <item name="android:windowBackground">@drawable/splash_background</item>
+        </style>
 
 </resources>
