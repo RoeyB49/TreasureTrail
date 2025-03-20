@@ -70,11 +70,11 @@ class EditProfile : Fragment() {
     private fun loadExistingUserData() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         userRepository.getUserData(userId, { user ->
-            inputUserName.setText(user.username)
-            inputPhone.setText(user.phoneNumber)
+            inputUserName.setText(user.displayName)
+            inputPhone.setText(user.phone)
 
-            if (!user.imageUri.isNullOrEmpty()) {
-                Picasso.get().load(user.imageUri)
+            if (!user.photoUrl.isNullOrEmpty()) {
+                Picasso.get().load(user.photoUrl)
                     .placeholder(R.drawable.avatar_default)
                     .into(profileImageView)
             }
@@ -92,9 +92,9 @@ class EditProfile : Fragment() {
 
         userRepository.updateUserProfile(
             userId,
-            username = newUserName.ifEmpty { null },
-            phoneNumber = newPhoneNumber.ifEmpty { null },
-            imageUri = imageUri,
+            displayName = newUserName.ifEmpty { null },
+            phone = newPhoneNumber.ifEmpty { null },
+            photoUrl = imageUri,
             onSuccess = {
                 progressBar.visibility = View.GONE
                 Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show()

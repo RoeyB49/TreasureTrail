@@ -72,7 +72,7 @@ class UserPostsFragment : Fragment() {
 
                     val userTask = db.collection("users").document(userId).get()
                     userTask.addOnSuccessListener { userDoc ->
-                        val username = userDoc.getString("username") ?: "Unknown"
+                        val username = userDoc.getString("displayName") ?: "Unknown"
                         val userImgUri = userDoc.getString("imageUri") ?: ""
                         val contactInfo = userDoc.getString("phoneNumber") ?: ""
                         Log.d("UserPostsFragment", "Retrieved phone number: $contactInfo")

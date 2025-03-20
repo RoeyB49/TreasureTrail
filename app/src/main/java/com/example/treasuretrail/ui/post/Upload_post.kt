@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.treasuretrail.R
 import com.example.treasuretrail.databinding.FragmentUploadPostBinding
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +36,7 @@ class Upload_post : Fragment() {
     ): View {
         _binding = FragmentUploadPostBinding.inflate(inflater, container, false)
 
-        // Initialize image picker
+
         imagePickerLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.GetContent()) { uri: Uri? ->
             if (uri != null) {
                 selectedImageUri = uri
@@ -50,12 +52,12 @@ class Upload_post : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // When the user taps the add image button, launch the image picker
+
         binding.btnAddImage.setOnClickListener {
             imagePickerLauncher.launch("image/*")
         }
 
-        // Handle post submission
+
         binding.btnSubmitPost.setOnClickListener {
             submitPost()
         }
@@ -67,7 +69,7 @@ class Upload_post : Fragment() {
         val details = binding.etPostDetails.text.toString().trim()
         val location = binding.etPostLocation.text.toString().trim()
 
-        // Get the selected category from the ChipGroup
+
         val selectedChipId = binding.chipGroupCategories.checkedChipId
         if (selectedChipId == View.NO_ID) {
             Toast.makeText(requireContext(), "Please select a category", Toast.LENGTH_SHORT).show()
@@ -82,7 +84,7 @@ class Upload_post : Fragment() {
             return
         }
 
-        // Ensure the user is logged in
+
         val currentUser = auth.currentUser
         if (currentUser == null) {
             Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
@@ -92,12 +94,13 @@ class Upload_post : Fragment() {
         val postId = UUID.randomUUID().toString()
         val timestamp = System.currentTimeMillis()
 
-        // Check if an image was selected; if yes, upload it first
+
         if (selectedImageUri != null) {
             val storageRef = storage.reference.child("post_images/$postId.jpg")
             storageRef.putFile(selectedImageUri!!).addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
+                    binding.progressBar.visibility = View.VISIBLE
                     createPost(postId, userId, title, category, details, location, imageUrl, timestamp)
                 }.addOnFailureListener {
                     Toast.makeText(requireContext(), "Failed to get image URL", Toast.LENGTH_SHORT).show()
@@ -106,7 +109,7 @@ class Upload_post : Fragment() {
                 Toast.makeText(requireContext(), "Image upload failed", Toast.LENGTH_SHORT).show()
             }
         } else {
-            // No image selected, create the post directly
+            binding.progressBar.visibility = View.VISIBLE
             createPost(postId, userId, title, category, details, location, null, timestamp)
         }
     }
@@ -134,10 +137,12 @@ class Upload_post : Fragment() {
         firestore.collection("posts").document(postId)
             .set(post)
             .addOnSuccessListener {
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(requireContext(), "Post created successfully", Toast.LENGTH_SHORT).show()
-
+                findNavController().navigate(R.id.action_uploadPostFragment_to_MyPostsFragment)
             }
             .addOnFailureListener {
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(requireContext(), "Failed to create post", Toast.LENGTH_SHORT).show()
             }
     }
