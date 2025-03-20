@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.treasuretrail.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.treasuretrail.models.Post
-import androidx.navigation.fragment.findNavController
-import com.example.treasuretrail.ui.post.PostAdapter
-
 
 class PostsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -67,12 +64,10 @@ class PostsFragment : Fragment() {
                     val userTask = db.collection("users").document(userId).get()
                     userTask.addOnSuccessListener { userDoc ->
                         val username = userDoc.getString("username") ?: "Unknown"
-                        val userImgUri = userDoc.getString("imageUri") ?: ""
                         val contactInfo = userDoc.getString("phoneNumber") ?: ""
                         Log.d("PostsFragment", "Retrieved phone number: $contactInfo")
                         val postWithUser = basePost.copy(
                             userName = username,
-                           //imageUrl = userImgUri,
                             contactInformation = contactInfo
                         )
                         postList.add(postWithUser)

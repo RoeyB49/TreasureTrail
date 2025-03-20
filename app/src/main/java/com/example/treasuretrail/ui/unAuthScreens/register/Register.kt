@@ -90,7 +90,6 @@ class Register : Fragment() {
         // Setup regular email/password registration
         setupEmailPasswordRegistration()
 
-        // Observe registration success
         registerViewModel.registrationSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
                 Toast.makeText(
@@ -99,7 +98,6 @@ class Register : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                // Navigate to profile fragment
                 findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
             } else {
                 Toast.makeText(
@@ -194,7 +192,6 @@ class Register : Fragment() {
                         binding.progressBar.visibility = View.GONE
                         Log.d(TAG, "Firebase registration successful")
                         Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
-                        // Navigate to profile fragment
                         findNavController().navigate(R.id.action_registerFragment_to_profileFragment)
                     },
                     onFailure = { errorMessage ->
@@ -208,7 +205,6 @@ class Register : Fragment() {
                 Toast.makeText(requireContext(), "Registration failed: No ID token", Toast.LENGTH_SHORT).show()
             }
         } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason
             Log.e(TAG, "Sign-in failed, code: ${e.statusCode}, message: ${e.message}")
             val errorMessage = when (e.statusCode) {
                 12500 -> "This device doesn't have Google Play Services"

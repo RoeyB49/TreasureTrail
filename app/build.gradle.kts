@@ -80,4 +80,6 @@ dependencies {
 
     // Picasso for image loading
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation ("com.airbnb.android:lottie:6.3.0")
+
 }

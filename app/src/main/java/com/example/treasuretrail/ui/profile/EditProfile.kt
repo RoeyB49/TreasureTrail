@@ -94,7 +94,7 @@ class EditProfile : Fragment() {
             userId,
             username = newUserName.ifEmpty { null },
             phoneNumber = newPhoneNumber.ifEmpty { null },
-            imageUri = imageUri, // Can be null if no new image selected
+            imageUri = imageUri,
             onSuccess = {
                 progressBar.visibility = View.GONE
                 Toast.makeText(context, "Profile Updated", Toast.LENGTH_SHORT).show()

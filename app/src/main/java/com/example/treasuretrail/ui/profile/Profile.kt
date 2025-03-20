@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.treasuretrail.R
 import com.example.treasuretrail.data.repository.UserRepository
-import com.example.treasuretrail.models.User
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -31,7 +30,6 @@ class Profile : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -49,7 +47,6 @@ class Profile : Fragment() {
         // Load user data
         loadUserData()
 
-        // Set up button click listeners
         setupButtonListeners()
     }
 
@@ -84,12 +81,10 @@ class Profile : Fragment() {
 
     private fun setupButtonListeners() {
         btnEditProfile.setOnClickListener {
-            // Navigate to EditProfile fragment
             findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
         btnMyPosts.setOnClickListener {
-            // Navigate to PostsFragment
             findNavController().navigate(R.id.action_profileFragment_to_mypostsFragment)
         }
 
@@ -112,8 +107,6 @@ class Profile : Fragment() {
 
     private fun logoutUser() {
         FirebaseAuth.getInstance().signOut()
-
-        // Navigate back to welcome fragment
         findNavController().navigate(R.id.action_profileFragment_to_welcomeFragment)
     }
 
