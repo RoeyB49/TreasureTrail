@@ -42,4 +42,7 @@ Each post in Firebase contains:
 - **Authentication:** Firebase Auth (Email & Google Sign-In)
 - **Storage:** Firebase Storage (For images)
 
+# Video Of The App
+
+https://github.com/user-attachments/assets/529d6896-e8ab-41b2-bb24-5420a28e136b
 
